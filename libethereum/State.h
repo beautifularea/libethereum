@@ -270,6 +270,7 @@ std::ostream& operator<<(std::ostream& _out, State const& _s);
 template <class DB>
 AddressHash commit(AccountMap const& _cache, SecureTrieDB<Address, DB>& _state)
 {
+	cnote << "Commiting...";
 	AddressHash ret;
 	for (auto const& i: _cache)
 		if (i.second.isDirty())
@@ -307,10 +308,12 @@ AddressHash commit(AccountMap const& _cache, SecureTrieDB<Address, DB>& _state)
 				else
 					s << i.second.codeHash();
 
+				cnote << i.first << "->" << s.out();
 				_state.insert(i.first, &s.out());
 			}
 			ret.insert(i.first);
 		}
+	cnote << "root=" << _state.root();
 	return ret;
 }
 

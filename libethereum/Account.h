@@ -173,7 +173,7 @@ private:
 	/// Is this account existant? If not, it represents a deleted account.
 	bool m_isAlive = false;
 
-	/// True if we've not made any alteration to the account having been given it's properties directly.
+	/// True if we've not made any alteration to the account having been given its properties directly.
 	bool m_isUnchanged = false;
 
 	/// Account's nonce.

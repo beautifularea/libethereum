@@ -168,5 +168,7 @@ bytes ChainParams::genesisBlock() const
 	block.appendRaw(sealRLP, sealFields);
 	block.appendRaw(RLPEmptyList);
 	block.appendRaw(RLPEmptyList);
+	cnote << "Genesis block: " << block.out();
+	cnote << "Hash: " << sha3(block.out());
 	return block.out();
 }

@@ -164,6 +164,7 @@ public:
 	bytes const& extraData() const { return m_extraData; }
 	LogBloom const& logBloom() const { return m_logBloom; }
 	u256 const& difficulty() const { return m_difficulty; }
+	bytes const& sealRaw(unsigned _offset = 0) const { return m_seal[_offset]; }
 	template <class T> T seal(unsigned _offset = 0) const { T ret; if (_offset < m_seal.size()) ret = RLP(m_seal[_offset]).convert<T>(RLP::VeryStrict); return ret; }
 
 private:

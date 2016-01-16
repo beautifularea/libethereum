@@ -95,16 +95,26 @@ void go(unsigned _depth, Executive& _e, OnOpFunc const& _onOp)
 		_e.go(_onOp);
 }
 }
-
+/*
+Externalities::call(gas=0x6c125, call_gas=0x8fc, recv=a748fa…dc, value=0x6f05b59d3b20000, data=, code=a748fa…dc)
+Externalities::call: BEFORE: bal(fbc128…da)=0x29a2241af62c0002, bal(a748fa…dc)=0x4440781269739936
+Externalities::call: CALLING: params=ActionParams { code_address: a748fac76b1d857e2f77484a0f816463e8b56edc, address: a748fac76b1d857e2f77484a0f816463e8b56edc, sender: fbc128067a2fe13c11bbc6cc55f29aa1f27630da, origin: 17580b766f7453525ca4c6a88b01b50570ea088c, gas: 0xcccccccccccccccc, gas_price: 0x5555555555555555, value: 0x, code: Some([]), data: Some([]) }
+Externalities::call: AFTER: bal(fbc128…da)=0x22b1c8c1227a0002, bal(a748fa…dc)=0x4b30d36c3d259936
+*/
 bool ExtVM::call(CallParameters& _p)
 {
 	Executive e(m_s, envInfo(), m_sealEngine, depth + 1);
+
+	cdebug << "Externalities::call: BEFORE: bal(" << _p.senderAddress << ")=" << m_s.balance(_p.senderAddress) << ", bal(" << _p.receiveAddress << ")=" << m_s.balance(_p.receiveAddress);
+
 	if (!e.call(_p, gasPrice, origin))
 	{
 		go(depth, e, _p.onOp);
 		e.accrueSubState(sub);
 	}
 	_p.gas = e.gas();
+
+	cdebug << "Externalities::call: AFTER: bal(" << _p.senderAddress << ")=" << m_s.balance(_p.senderAddress) << ", bal(" << _p.receiveAddress << ")=" << m_s.balance(_p.receiveAddress);
 
 	return !e.excepted();
 }
