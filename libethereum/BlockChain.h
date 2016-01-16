@@ -308,7 +308,7 @@ public:
 
 	BlockHeader const& genesis() const;
 
-private:
+protected:
 	static h256 chunkId(unsigned _level, unsigned _index) { return h256(_index * 0xff + _level); }
 
 	/// Initialise everything and ready for openning the database.
